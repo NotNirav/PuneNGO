@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* NGOConnect design tokens — matches the presentation deck. */
+@theme {
+  --color-cobalt: #2747f5;
+  --color-cobalt-deep: #1f3ad0;
+  --color-lime: #e7ff77;
+  --color-peach: #ffe6dc;
+  --color-ice: #e3eeff;
+  --color-ink: #16201c;
+  --color-muted: #5e6b66;
+  --color-paper: #fbfaf6;
+  --color-line: #e6e3da;
+
+  --radius-card: 24px;
+  --radius-card-lg: 28px;
+
+  --shadow-soft: 0 1px 2px rgb(22 32 28 / 0.04), 0 6px 24px -8px rgb(22 32 28 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(22 32 28 / 0.05), 0 14px 36px -10px rgb(39 71 245 / 0.25);
+}
+
+/* Fonts come from next/font CSS variables set on <html>. */
+@theme inline {
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-dm-sans), ui-sans-serif, sans-serif;
+  --font-hand: var(--font-caveat), cursive;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-ink);
+  }
+
+  /* Keep the footer clear of the fixed mobile contact bar on NGO profiles. */
+  @media (width < 48rem) {
+    body:has([data-contact-bar="fixed"]) footer {
+      padding-bottom: 5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

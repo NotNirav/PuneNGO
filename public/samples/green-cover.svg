@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+<rect width="1600" height="900" fill="#E7FF77"/>
+<circle cx="1320" cy="160" r="300" fill="#2E7D4F" opacity=".9"/>
+<circle cx="220" cy="820" r="260" fill="#2E7D4F" opacity=".18"/>
+<rect x="640" y="380" width="520" height="520" rx="120" fill="#E7FF77" opacity=".7" transform="rotate(-12 900 640)"/>
+<text x="800" y="520" font-size="240" text-anchor="middle" dominant-baseline="middle">🌱</text>
+<text x="70" y="110" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="#16201C" opacity=".55">SAMPLE IMAGE</text>
+</svg>
