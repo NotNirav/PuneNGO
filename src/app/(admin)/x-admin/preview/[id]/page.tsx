@@ -2,25 +2,16 @@ import { Eye, Pencil } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NgoProfile } from "@/components/ngo/NgoProfile";
-import { ServiceKeyNotice } from "@/components/admin/ServiceKeyNotice";
 import { buttonClasses } from "@/components/ui/Button";
 import { adminHref, requireAdmin } from "@/lib/admin/auth";
 import { getNgoForAdmin } from "@/lib/admin/data";
 import { formToProfile, rowToForm } from "@/lib/ngoForm";
-import { hasServiceKey } from "@/lib/supabase/admin";
 
 export const metadata = { title: "Preview" };
 
 /** Full-page preview of any NGO, drafts included, using the real public profile component. */
 export default async function PreviewPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
-  if (!hasServiceKey()) {
-    return (
-      <main className="px-4 py-8">
-        <ServiceKeyNotice />
-      </main>
-    );
-  }
   const found = await getNgoForAdmin((await params).id);
   if (!found) notFound();
   const { row, priv } = found;

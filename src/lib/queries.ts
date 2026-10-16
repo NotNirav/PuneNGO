@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { createPublicClient } from "@/lib/supabase/public";
+import { getMockPublishedNgos } from "@/lib/demoStore";
 import { PUBLIC_NGO_COLUMNS, type PublicNgo } from "@/lib/types";
 
 /** Cache tag for all public NGO data. Admin saves call revalidateTag(NGOS_TAG). */
@@ -9,17 +10,26 @@ export const NGOS_TAG = "ngos";
 /**
  * All published NGOs, fetched once and cached. Pages filter this list in memory —
  * simple and fast for a city-sized directory (hundreds of rows).
- * Refreshed instantly when the admin publishes, otherwise at most hourly.
+ * Automatically falls back to the built-in demo dataset when Supabase keys are not set.
  */
 export const getPublishedNgos = unstable_cache(
   async (): Promise<PublicNgo[]> => {
-    const { data, error } = await createPublicClient()
-      .from("ngos")
-      .select(PUBLIC_NGO_COLUMNS.join(","))
-      .eq("status", "published")
-      .order("name");
-    if (error) throw new Error(`Failed to load NGOs: ${error.message}`);
-    return (data ?? []) as unknown as PublicNgo[];
+    try {
+      const client = createPublicClient();
+      if (client) {
+        const { data, error } = await client
+          .from("ngos")
+          .select(PUBLIC_NGO_COLUMNS.join(","))
+          .eq("status", "published")
+          .order("name");
+        if (!error && data && data.length > 0) {
+          return data as unknown as PublicNgo[];
+        }
+      }
+    } catch (err) {
+      console.warn("Supabase fetch failed, falling back to demo dataset:", err);
+    }
+    return getMockPublishedNgos();
   },
   ["published-ngos"],
   { tags: [NGOS_TAG], revalidate: 3600 },

@@ -1,8 +1,15 @@
 import type { NextConfig } from "next";
 
-const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
-  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
-  : undefined;
+let supabaseHost: string | undefined;
+try {
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    const raw = process.env.NEXT_PUBLIC_SUPABASE_URL.trim();
+    const formatted = raw.startsWith("http://") || raw.startsWith("https://") ? raw : `https://${raw}`;
+    supabaseHost = new URL(formatted).hostname;
+  }
+} catch {
+  supabaseHost = undefined;
+}
 
 const nextConfig: NextConfig = {
   images: {

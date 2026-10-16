@@ -210,7 +210,7 @@ DT - Website/
 ### Prerequisites
 - [Node.js](https://nodejs.org/) v20.x or newer
 - [npm](https://www.npmjs.com/) or compatible package manager
-- A [Supabase](https://supabase.com/) project (free tier works great)
+- *(Optional)* A [Supabase](https://supabase.com/) project (only if you want persistent cloud PostgreSQL/Storage; the demo prototype runs 100% self-contained without it)
 
 ### Installation
 
@@ -292,22 +292,24 @@ Ensure your repository is pushed to GitHub, GitLab, or Bitbucket.
 1. Go to [Vercel](https://vercel.com/) and click **"Add New Project"**.
 2. Select this repository. Next.js will be detected automatically.
 
-### 3. Add Production Environment Variables
-In the Vercel project settings, add the following Environment Variables:
+### 3. Add Production Environment Variables (Optional)
+The prototype is **100% self-contained** and can be deployed with **ZERO keys or environment variables**! 
+
+If you want to configure custom admin credentials or connect a live Supabase PostgreSQL database later, you can optionally configure:
 
 | Variable | Value / Description | Required? |
 | :--- | :--- | :--- |
-| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase Project URL (`https://xyz.supabase.co`) | **Yes** |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase Publishable / Anon Key | **Yes** |
-| `SUPABASE_SERVICE_ROLE_KEY` | Your secret Supabase Service Role Key (from Supabase Settings → API Keys) | **Yes** (for admin mutations & photo uploads) |
-| `NEXT_PUBLIC_SITE_URL` | Your live production domain (e.g. `https://ngoconnect.vercel.app`) | **Yes** (for sitemap & SEO URLs) |
+| `NEXT_PUBLIC_SITE_URL` | Your live production domain (e.g. `https://ngoconnect.vercel.app`) | Optional (recommended for SEO canonical URLs) |
 | `ADMIN_PATH` | `/admin` (or custom path like `/studio`) | Optional (defaults to `/admin`) |
 | `ADMIN_USERNAME` | `pccoeadmin` (or custom admin username) | Optional (defaults to `pccoeadmin`) |
 | `ADMIN_PASSWORD` | `admin@123` (or custom admin password) | Optional (defaults to `admin@123`) |
-| `ADMIN_SESSION_SECRET` | A 32+ character random secret string | Recommended for production |
+| `ADMIN_SESSION_SECRET` | A 32+ character random secret string | Optional (built-in fallback provided) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase Project URL (`https://xyz.supabase.co`) | Optional (cloud database sync) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase Publishable / Anon Key | Optional (cloud database sync) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Service Role Key | Optional (cloud write bypass) |
 
 ### 4. Deploy!
-Click **Deploy**. Vercel will run `npm run build`, compile all static and dynamic pages, and launch your site with Edge Middleware and global CDN caching.
+Click **Deploy**. Vercel will run `npm run build`, compile all 61+ static and dynamic pages with zero errors, and launch your site with Edge Middleware and global CDN caching.
 
 ---
 
